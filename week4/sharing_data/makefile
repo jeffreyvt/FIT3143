@@ -1,5 +1,5 @@
-ALL: helloworld
-helloworld: helloworld.c
-	mpicc -o helloworld helloworld.c
+ALL: sharing_data
+sharing_data:sharing_data.c
+	mpicc -o sharing_data sharing_data.c
 clean:
-	/bin/rm -f helloworld*.o
+	/bin/rm -f sharing_data*.o
