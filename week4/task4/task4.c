@@ -39,13 +39,13 @@ int main(int argc, char *argv[])
 		{
 			packsize = 0;
 			scanf("%d%lf", &value.a, &value.b);
-			MPI_Pack(&value, 2, mystruct, packbuff, 100, &packsize, MPI_COMM_WORLD);
+			MPI_Pack(&value, 1, mystruct, packbuff, 100, &packsize, MPI_COMM_WORLD);
 		}
 		MPI_Bcast(&packsize, 1, MPI_INT, 0, MPI_COMM_WORLD);
 		MPI_Bcast(packbuff, packsize, MPI_PACKED, 0, MPI_COMM_WORLD);
 		if (rank != 0)
 		{
-			MPI_Unpack(packbuff, packsize, &position, &value, 2, mystruct, MPI_COMM_WORLD);		
+			MPI_Unpack(packbuff, packsize, &position, &value, 1, mystruct, MPI_COMM_WORLD);		
 		}		
 		printf("Process %d got %d and %lf\n", rank, value.a, value.b);
 	} while (value.a >= 0);
