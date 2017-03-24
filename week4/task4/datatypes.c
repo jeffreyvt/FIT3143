@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "mpi.h"
-#include <unistd.h>
 
 int main(int argc, char *argv[])
 {
@@ -34,17 +33,9 @@ int main(int argc, char *argv[])
 	do
 	{
 		if (rank == 0)
-		{
-			printf("\nInput the value of a: ");
-			fflush(stdout);
-			scanf("%d", &value.a);
-			printf("\nInput the value of b: ");
-			fflush(stdout);
-			scanf("%lf", &value.b);
-		}
+			scanf("%d%lf", &value.a, &value.b);
 		MPI_Bcast(&value, 1, mystruct, 0, MPI_COMM_WORLD);
 		printf("Process %d got %d and %lf\n", rank, value.a, value.b);
-		usleep(200);		
 	} while (value.a >= 0);
 
 	MPI_Type_free(&mystruct);
