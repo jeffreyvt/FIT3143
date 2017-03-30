@@ -2,7 +2,7 @@
 #include "mpi.h"
 
 int main(int argc, char *argv[]){
-	int rc,rank, size,junk, dest, source, input, tag=1, false = 0;
+	int rc,rank, size,junk, dest, scanfout, source, input, tag=1, false = 0;
 	
 	MPI_Status Stat;
 	MPI_Init(&argc, &argv);
@@ -18,11 +18,14 @@ int main(int argc, char *argv[]){
 	
 	
 	if (rank == 0) {
-		scanf("%d", &input);
-		printf("Process %d received %d from the input\n", rank, input);
-		fflush(stdout);
-		//MPI_Cart_shift(comm, 0, 1, &junk, &source);
-		rc = MPI_Send(&input, 1, MPI_INT, dest, tag, comm);
+		scanfout = scanf("%d", &input);
+		if (scanfout == 1){
+			printf("Process %d received %d from the input\n", rank, input);
+			fflush(stdout);
+			//MPI_Cart_shift(comm, 0, 1, &junk, &source);
+			rc = MPI_Send(&input, 1, MPI_INT, dest, tag, comm);
+		}
+		else {printf("scanf failed, we are expecting an integer!!!!!\n");return 0;}
 	}
 	else {
 		//MPI_Cart_shift(comm, 1, 1, &junk, &source);
